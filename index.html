@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Menú Nutritivo de Nico </title>
+
+    <!-- Iconos para Pantalla de Inicio (iOS y Android) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="iconoaguacate.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="iconoaguacate.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="iconoaguacate.png">
+    <link rel="shortcut icon" href="iconoaguacate.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-bg: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            
+            /* Theme Colors */
+            --desayuno-color: #ff9f43;
+            --desayuno-bg: #fff0e6;
+            --colacion1-color: #00cec9;
+            --colacion1-bg: #e6faf9;
+            --comida-color: #ff6b6b;
+            --comida-bg: #ffebeb;
+            --snack-color: #a29bfe;
+            --snack-bg: #f0eeff;
+            --cena-color: #6c5ce7;
+            --cena-bg: #eeeefd;
+
+            --accent-pink: #fd79a8;
+            --accent-green: #00b894;
+            --accent-yellow: #f1c40f;
+            --accent-blue: #0984e3;
+            
+            --border-radius: 20px;
+            --shadow-soft: 0 10px 25px rgba(0,0,0,0.05);
+            --shadow-hover: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            background-image: radial-gradient(#e2e8f0 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            padding: 35px 20px 25px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            box-shadow: 0 8px 20px rgba(255, 154, 158, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-deco {
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0.15;
+            user-select: none;
+        }
+        .deco-1 { top: -10px; left: 5%; transform: rotate(-15deg); }
+        .deco-2 { bottom: -10px; right: 5%; transform: rotate(15deg); }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #ffffff;
+            font-size: 2.6rem;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.25);
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Controls Section */
+        .controls-wrapper {
+            margin: 25px 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .days-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 5px 15px;
+            scrollbar-width: thin;
+        }
+
+        .days-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+        .days-nav::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 10px;
+        }
+
+        .day-btn {
+            background: var(--card-bg);
+            border: 2px solid #e2e8f0;
+            padding: 12px 22px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .day-btn:hover {
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
+            transform: translateY(-2px);
+        }
+
+        .day-btn.active {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 15px rgba(255, 117, 140, 0.4);
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 25px;
+            border: 2px solid #e2e8f0;
+            outline: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(9, 132, 227, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+
+        /* Water & Habit Tracker Widget */
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tracker-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #edf2f7;
+            transition: transform 0.2s;
+        }
+
+        .tracker-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tracker-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .water-icon { background: #e3f2fd; color: #2196f3; }
+        .exercise-icon { background: #e8f5e9; color: #4caf50; }
+        .sleep-icon { background: #f3e5f5; color: #9c27b0; }
+
+        .tracker-info h4 {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .tracker-info p {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Meal Cards Grid */
+        .meals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .meal-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .meal-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meal-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meal-header i {
+            font-size: 1.3rem;
+        }
+
+        .meal-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+        }
+
+        .meal-time {
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.7);
+        }
+
+        .meal-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .meal-items {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .meal-items li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #4a5568;
+        }
+
+        .meal-items li::before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            top: -2px;
+            font-size: 1.4rem;
+            color: var(--accent-pink);
+        }
+
+        /* Checkbox Styling */
+        .check-wrapper {
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            user-select: none;
+        }
+
+        .custom-checkbox input {
+            display: none;
+        }
+
+        .checkmark {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #cbd5e0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+            color: white;
+        }
+
+        .checkmark::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 0.75rem;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark::after {
+            display: block;
+        }
+
+        .meal-card.completed {
+            opacity: 0.75;
+            background: #f8fafc;
+        }
+
+        .meal-card.completed .meal-title {
+            text-decoration: line-through;
+        }
+
+        /* Card Theme Colors */
+        .card-desayuno { border-color: var(--desayuno-color); }
+        .card-desayuno .meal-header { background: var(--desayuno-bg); color: var(--desayuno-color); }
+        .card-desayuno .meal-items li::before { color: var(--desayuno-color); }
+
+        .card-colacion1 { border-color: var(--colacion1-color); }
+        .card-colacion1 .meal-header { background: var(--colacion1-bg); color: var(--colacion1-color); }
+        .card-colacion1 .meal-items li::before { color: var(--colacion1-color); }
+
+        .card-comida { border-color: var(--comida-color); }
+        .card-comida .meal-header { background: var(--comida-bg); color: var(--comida-color); }
+        .card-comida .meal-items li::before { color: var(--comida-color); }
+
+        .card-snack { border-color: var(--snack-color); }
+        .card-snack .meal-header { background: var(--snack-bg); color: var(--snack-color); }
+        .card-snack .meal-items li::before { color: var(--snack-color); }
+
+        .card-cena { border-color: var(--cena-color); }
+        .card-cena .meal-header { background: var(--cena-bg); color: var(--cena-color); }
+        .card-cena .meal-items li::before { color: var(--cena-color); }
+
+        /* Recommendations Collapsible Section */
+        .tips-section {
+            margin-top: 40px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid #edf2f7;
+        }
+
+        .tips-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .tips-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+            color: #2d3748;
+        }
+
+        .tips-title i {
+            color: var(--accent-yellow);
+            font-size: 1.6rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tip-box {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 18px;
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .tip-box.pink { border-left-color: var(--accent-pink); }
+        .tip-box.green { border-left-color: var(--accent-green); }
+        .tip-box.yellow { border-left-color: var(--accent-yellow); }
+
+        .tip-box h5 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-box p, .tip-box ul {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .tip-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: var(--border-radius);
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #cbd5e0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 0.95rem; }
+            .container { padding: 0 15px; }
+            .meals-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <i class="fa-solid fa-apple-whole header-deco deco-1"></i>
+        <i class="fa-solid fa-carrot header-deco deco-2"></i>
+        <div class="container">
+            <h1>¡El Menú de Nico! </h1>
+            <div class="subtitle">Plan Nutritivo Semanal para un Súper Campeón </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- Controls & Navigation -->
+        <div class="controls-wrapper">
+            <div class="days-nav" id="daysNav">
+                <button class="day-btn active" data-day="Lunes"><i class="fa-solid fa-calendar-day"></i> Lunes</button>
+                <button class="day-btn" data-day="Martes"><i class="fa-solid fa-calendar-day"></i> Martes</button>
+                <button class="day-btn" data-day="Miércoles"><i class="fa-solid fa-calendar-day"></i> Miércoles</button>
+                <button class="day-btn" data-day="Jueves"><i class="fa-solid fa-calendar-day"></i> Jueves</button>
+                <button class="day-btn" data-day="Viernes"><i class="fa-solid fa-calendar-day"></i> Viernes</button>
+                <button class="day-btn" data-day="Sábado"><i class="fa-solid fa-calendar-day"></i> Sábado</button>
+                <button class="day-btn" data-day="Domingo"><i class="fa-solid fa-calendar-day"></i> Domingo</button>
+            </div>
+
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Buscar alimento (ej. licuado, pollo, fresas, yogurt)...">
+            </div>
+        </div>
+
+        <!-- Quick Habits Tracker Widget -->
+        <div class="widget-grid">
+            <div class="tracker-card">
+                <div class="tracker-icon water-icon"><i class="fa-solid fa-glass-water"></i></div>
+                <div class="tracker-info">
+                    <h4>Agua Diaria</h4>
+                    <p>1.5 a 2 Litros / día</p>
+                </div>
+            </div>
+            <div class="tracker-card">
+                <div class="tracker-icon exercise-icon"><i class="fa-solid fa-person-running"></i></div>
+                <div class="tracker-info">
+                    <h4>Actividad Física</h4>
+                    <p>60 min (Caminata, bici, baile)</p>
+                </div>
+            </div>
+            <div class="tracker-card">
+                <div class="tracker-icon sleep-icon"><i class="fa-solid fa-moon"></i></div>
+                <div class="tracker-info">
+                    <h4>Hora de Dormir</h4>
+                    <p>9:30 PM (Estable)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meal Cards Grid -->
+        <div class="meals-grid" id="mealsGrid">
+            <!-- Dynamically populated -->
+        </div>
+
+        <!-- Tips & Guidance Section -->
+        <div class="tips-section">
+            <div class="tips-header" id="tipsHeader">
+                <div class="tips-title">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Recomendaciones y Hábitos Importantes</span>
+                </div>
+                <i class="fa-solid fa-chevron-down" id="tipsArrow"></i>
+            </div>
+            
+            <div class="tips-grid" id="tipsContent">
+                <div class="tip-box yellow">
+                    <h5><i class="fa-solid fa-utensils"></i> Hábitos en la Mesa</h5>
+                    <ul>
+                        <li>Comer sin distractores (Sin TV, iPad o celulares).</li>
+                        <li>Masticar despacio (al menos 20 min por comida).</li>
+                        <li>Tomar 1 vaso de agua antes de los alimentos da saciedad.</li>
+                        <li>Servir la mitad del plato cubierta de verduras.</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box green">
+                    <h5><i class="fa-solid fa-leaf"></i> Cocina y Preparación</h5>
+                    <ul>
+                        <li>Usar aceite en spray o aerosol para guisar.</li>
+                        <li>Preferir aceites saludables: oliva, aguacate, nueces.</li>
+                        <li>Sazonar con especias naturales (ajo, tomillo, cúrcuma).</li>
+                        <li>Consumo libre de verduras verdes.</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box pink">
+                    <h5><i class="fa-solid fa-ban"></i> Evitar o Limitar</h5>
+                    <ul>
+                        <li>Evitar carbohidratos simples: galletas dulces, refrescos, jugos.</li>
+                        <li>Evitar embutidos y preferir carnes magras (res, pollo, atún, pescado).</li>
+                        <li>Evitar azúcares refinados y sustitutos calóricos.</li>
+                        <li>Probar nuevas verduras de forma constante.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const menuData = {
+            "Lunes": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-mug-hot",
+                    items: [
+                        "Pan con leche: 1 taza de leche desnatada",
+                        "1 rebanada de pan tostado + 1 cdita de crema de maní",
+                        "1/2 plátano"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-apple-whole",
+                    items: [
+                        "Quesadillas: 4 tortillas delgaditas ó 2 tortillas de maíz o harina",
+                        "60 g de queso oaxaca o panela",
+                        "1 taza de pepino + 1 manzana"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-drumstick-bite",
+                    items: [
+                        "Bistec a la mexicana: 90 g de bistec a la mexicana",
+                        "4 tostadas horneadas",
+                        "Ensalada verde: espinacas, lechuga, col morada + 1 cdita de aceite de oliva"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-cookie-bite",
+                    items: [
+                        "1 taza de fresas / piña / papaya / melón / sandía",
+                        "7 nueces ó 10 almendras"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-utensils",
+                    items: [
+                        "Molletes: 1 bolillo sin migajón",
+                        "Untar frijoles + 80 g de queso panela",
+                        "Pico de gallo o ensalada"
+                    ]
+                }
+            ],
+            "Martes": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-blender",
+                    items: [
+                        "Licuado: 1 taza de fresas",
+                        "1 taza de leche descremada",
+                        "1 cda de chía",
+                        "2 cdas de amaranto"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-egg",
+                    items: [
+                        "Huevo a la mexicana / pimientos / jitomate",
+                        "2 huevos con jitomate",
+                        "2 paquetes de salmas ó 2 tortillas de maíz",
+                        "Zanahoria baby + pepino + 2 naranjas"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-bowl-rice",
+                    items: [
+                        "Fajitas de pollo: 90 g de pollo + pimientos, jitomate, cebolla, champiñones",
+                        "1/3 de aguacate",
+                        "4 tortillas delgaditas",
+                        "1/2 taza de frijoles"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-lemon",
+                    items: [
+                        "1 manzana ó 1 kiwi + 1 cda de crema de maní",
+                        "15 cacahuates"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-cheese",
+                    items: [
+                        "Sincronizadas: 4-6 tortillas delgaditas ó 2 tortillas de maíz",
+                        "3 rebanadas de pechuga de pavo + 60 g de queso oaxaca o panela",
+                        "Rodajas de pepino con limón y pizca de sal"
+                    ]
+                }
+            ],
+            "Miércoles": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-bowl-food",
+                    items: [
+                        "Yogur con fruta: 1 manzana",
+                        "1/2 taza de yogur",
+                        "1 cda de chía",
+                        "2 cdas de granola"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-bread-slice",
+                    items: [
+                        "Sándwich: 2 rebanadas de pan (Sara Lee o Bimbo Cero)",
+                        "2 rebanadas de pechuga de pavo + 2 rebanadas de queso",
+                        "1 cdita de mayonesa",
+                        "Espinacas y jitomate",
+                        "1 taza de fresas"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-carrot",
+                    items: [
+                        "Calabacitas: 90 g de pollo asado",
+                        "Calabacitas a la mexicana + 1/4 taza de elote + queso fresco",
+                        "1/3 de aguacate",
+                        "3/4 taza de arroz"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-pepper-hot",
+                    items: [
+                        "1/2 toronja / plátano / mango + pepino con limón y pizca de Tajín",
+                        "18 pistaches"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-leaf",
+                    items: [
+                        "Tacos de lechuga orejona: Rellenar de fajitas de res con pimientos, cebolla y champiñones (60g)",
+                        "Añadir guacamole",
+                        "1 elote con mantequilla"
+                    ]
+                }
+            ],
+            "Jueves": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-blender",
+                    items: [
+                        "Licuado: 1/2 plátano",
+                        "1 taza de leche descremada",
+                        "1 cda de crema de maní",
+                        "2 cdas de avena"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-pizza-slice",
+                    items: [
+                        "Pizza casera: 1 pan pita ó árabe",
+                        "Untar salsa de tomate + 60 g de queso oaxaca o mozzarella",
+                        "Agregar trozos de pavo, piña, champiñones",
+                        "12 uvas"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-burger",
+                    items: [
+                        "Picadillo: 90 g de carne molida",
+                        "Papa, zanahoria, brócoli",
+                        "3/4 taza de arroz integral o quinua",
+                        "Ensalada"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-stroopwafel",
+                    items: [
+                        "Gaspatcho: pepino, jícama, zanahoria, naranja + 1.5 cdita de cacahuates"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-fish",
+                    items: [
+                        "Ensalada de atún: 1 sobre de atún",
+                        "1 cdita de mayonesa",
+                        "Ensalada o verduras al gusto",
+                        "4 tostadas"
+                    ]
+                }
+            ],
+            "Viernes": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-bowl-food",
+                    items: [
+                        "Yogur con fruta: 1 taza de papaya / melón / piña",
+                        "1/2 taza de yogur",
+                        "1 cda de chía",
+                        "2 cdas de granola"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-layer-group",
+                    items: [
+                        "Chilaquiles de pollo: 20 totopos Susalia ó Mi Reina",
+                        "Salsa al gusto + 60 g de pollo deshebrado",
+                        "1 cda de crema + 1/2 taza de frijoles",
+                        "2 mandarinas"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-drumstick-bite",
+                    items: [
+                        "Caldo de pollo: 90 g de pollo",
+                        "Ejotes, brócoli, coliflor, zanahoria, acelga",
+                        "4 tortillas delgaditas + 2 cdas de guacamole",
+                        "1/2 taza de arroz"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-cookie",
+                    items: [
+                        "2 galletas de arroz ó 1 rebanada de pan con crema de maní o mermelada sin azúcar + 1/2 plátano"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-cubes-stacked",
+                    items: [
+                        "Tacos de bistec: 4-6 tortillas delgaditas",
+                        "60 g de bistec",
+                        "Agregar pico de gallo",
+                        "1/3 de aguacate"
+                    ]
+                }
+            ],
+            "Sábado": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-wheat-awn",
+                    items: [
+                        "Cereal con leche: 1 taza de Corn Flakes / Cheerios / Groovies",
+                        "1 taza de leche",
+                        "7 nueces"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-bread-slice",
+                    items: [
+                        "Tostadas: 3-4 tostadas de Saníssimo o Susalia",
+                        "60 g de pollo desherbrado o bistec",
+                        "Untar frijoles + queso + lechuga, zanahoria y col morada rallada",
+                        "Aguacate + 1 manzana"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-fish",
+                    items: [
+                        "Pescado: 90 g de filete de pescado o salmón",
+                        "Ensalada: lechuga, jitomate, pepino y betabel",
+                        "1/3 de aguacate",
+                        "3/4 taza de arroz integral, quinua o pasta"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-apple-whole",
+                    items: [
+                        "Pepino en rodajas + 15 uvas + 18 pistaches"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-egg",
+                    items: [
+                        "Omelette: 1 huevo + 30 g de queso",
+                        "1/2 taza de frijoles",
+                        "4-6 tortillas delgaditas"
+                    ]
+                }
+            ],
+            "Domingo": [
+                {
+                    type: "Desayuno",
+                    time: "7:30 am",
+                    category: "desayuno",
+                    icon: "fa-blender",
+                    items: [
+                        "Licuado: 1 manzana",
+                        "1 taza de leche descremada",
+                        "1 cda de chía",
+                        "2 cdas de amaranto o avena"
+                    ]
+                },
+                {
+                    type: "Lunch / Colación",
+                    time: "10:30 am",
+                    category: "colacion1",
+                    icon: "fa-hotdog",
+                    items: [
+                        "Entomatadas: 4-6 tortillas delgaditas",
+                        "Salsa de tomate + rellenar de 60 g de pollo",
+                        "1/2 taza de frijoles",
+                        "1 taza de melón"
+                    ]
+                },
+                {
+                    type: "Comida",
+                    time: "3:00 pm",
+                    category: "comida",
+                    icon: "fa-drumstick-bite",
+                    items: [
+                        "Carne asada: 90 g de carne asada",
+                        "1 papa asada + 1 cdita de mantequilla",
+                        "Verduras / ensalada al gusto"
+                    ]
+                },
+                {
+                    type: "Snack",
+                    time: "5:00 pm",
+                    category: "snack",
+                    icon: "fa-popcorn",
+                    items: [
+                        "2 tazas de palomitas de maíz ó 5 galletas María + 3 guayabas / ciruelas"
+                    ]
+                },
+                {
+                    type: "Cena",
+                    time: "7:30 pm",
+                    category: "cena",
+                    icon: "fa-bread-slice",
+                    items: [
+                        "Sándwich: 2 rebanadas de pan",
+                        "30 g de pollo + 2 rebanadas de queso + 1 cdita de mayonesa",
+                        "Lechuga y espinaca"
+                    ]
+                }
+            ]
+        };
+
+        let currentDay = "Lunes";
+        let completedMeals = JSON.parse(localStorage.getItem("completedMeals_nico")) || {};
+
+        const daysNav = document.getElementById("daysNav");
+        const mealsGrid = document.getElementById("mealsGrid");
+        const searchInput = document.getElementById("searchInput");
+        const tipsHeader = document.getElementById("tipsHeader");
+        const tipsContent = document.getElementById("tipsContent");
+        const tipsArrow = document.getElementById("tipsArrow");
+
+        // Initialize Day Nav
+        daysNav.addEventListener("click", (e) => {
+            const btn = e.target.closest(".day-btn");
+            if (!btn) return;
+            
+            document.querySelectorAll(".day-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            currentDay = btn.dataset.day;
+            searchInput.value = "";
+            renderMeals();
+        });
+
+        // Search Filter
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query === "") {
+                renderMeals();
+                return;
+            }
+            renderSearchResults(query);
+        });
+
+        function renderMeals() {
+            const meals = menuData[currentDay] || [];
+            mealsGrid.innerHTML = "";
+
+            if (meals.length === 0) {
+                mealsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-utensils"></i>
+                        <p>No hay comidas registradas para este día.</p>
+                    </div>`;
+                return;
+            }
+
+            meals.forEach((meal, index) => {
+                const mealId = `${currentDay}_${index}`;
+                const isChecked = completedMeals[mealId] || false;
+
+                const card = document.createElement("div");
+                card.className = `meal-card card-${meal.category} ${isChecked ? 'completed' : ''}`;
+                
+                const itemsList = meal.items.map(item => `<li>${item}</li>`).join('');
+
+                card.innerHTML = `
+                    <div class="meal-header">
+                        <div class="meal-header-left">
+                            <i class="fa-solid ${meal.icon}"></i>
+                            <span class="meal-title">${meal.type}</span>
+                        </div>
+                        <span class="meal-time">${meal.time}</span>
+                    </div>
+                    <div class="meal-body">
+                        <ul class="meal-items">
+                            ${itemsList}
+                        </ul>
+                        <div class="check-wrapper">
+                            <label class="custom-checkbox">
+                                <span>¡Listo Nico!</span>
+                                <input type="checkbox" data-id="${mealId}" ${isChecked ? 'checked' : ''}>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                `;
+
+                mealsGrid.appendChild(card);
+            });
+
+            attachCheckboxListeners();
+        }
+
+        function renderSearchResults(query) {
+            mealsGrid.innerHTML = "";
+            let matchCount = 0;
+
+            Object.keys(menuData).forEach(day => {
+                menuData[day].forEach((meal, index) => {
+                    const hasMatch = meal.items.some(item => item.toLowerCase().includes(query)) || 
+                                     meal.type.toLowerCase().includes(query);
+
+                    if (hasMatch) {
+                        matchCount++;
+                        const mealId = `${day}_${index}`;
+                        const isChecked = completedMeals[mealId] || false;
+
+                        const card = document.createElement("div");
+                        card.className = `meal-card card-${meal.category} ${isChecked ? 'completed' : ''}`;
+                        
+                        const itemsList = meal.items.map(item => {
+                            const highlighted = item.toLowerCase().includes(query) 
+                                ? `<mark style="background:#ffeaa7; padding:2px 4px; border-radius:4px">${item}</mark>` 
+                                : item;
+                            return `<li>${highlighted}</li>`;
+                        }).join('');
+
+                        card.innerHTML = `
+                            <div class="meal-header">
+                                <div class="meal-header-left">
+                                    <i class="fa-solid ${meal.icon}"></i>
+                                    <span class="meal-title">${meal.type} (${day})</span>
+                                </div>
+                                <span class="meal-time">${meal.time}</span>
+                            </div>
+                            <div class="meal-body">
+                                <ul class="meal-items">
+                                    ${itemsList}
+                                </ul>
+                                <div class="check-wrapper">
+                                    <label class="custom-checkbox">
+                                        <span>¡Listo Nico!</span>
+                                        <input type="checkbox" data-id="${mealId}" ${isChecked ? 'checked' : ''}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        `;
+
+                        mealsGrid.appendChild(card);
+                    }
+                });
+            });
+
+            if (matchCount === 0) {
+                mealsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-cookie-bite"></i>
+                        <p>No se encontraron platillos con "${query}".</p>
+                    </div>`;
+            } else {
+                attachCheckboxListeners();
+            }
+        }
+
+        function attachCheckboxListeners() {
+            document.querySelectorAll(".custom-checkbox input").forEach(input => {
+                input.addEventListener("change", (e) => {
+                    const id = e.target.dataset.id;
+                    const card = e.target.closest(".meal-card");
+                    
+                    if (e.target.checked) {
+                        completedMeals[id] = true;
+                        card.classList.add("completed");
+                    } else {
+                        delete completedMeals[id];
+                        card.classList.remove("completed");
+                    }
+                    
+                    localStorage.setItem("completedMeals_nico", JSON.stringify(completedMeals));
+                });
+            });
+        }
+
+        // Tips Collapse Toggle
+        tipsHeader.addEventListener("click", () => {
+            const isHidden = tipsContent.style.display === "none";
+            tipsContent.style.display = isHidden ? "grid" : "none";
+            tipsArrow.style.transform = isHidden ? "rotate(0deg)" : "rotate(-90deg)";
+        });
+
+        // First Render
+        renderMeals();
+    </script>
+</body>
+</html>
